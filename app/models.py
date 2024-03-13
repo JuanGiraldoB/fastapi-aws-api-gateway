@@ -18,6 +18,9 @@ class User(Base):
     dogs = relationship("Dog", back_populates="owner",
                         cascade="all, delete-orphan")
 
+    def __repr__(self):
+        return f"<User(id={self.id}, name='{self.name}', email='{self.email}', contact_info='{self.contact_info}', is_active={self.is_active}, dogs={self.dogs})>"
+
 
 class Dog(Base):
     __tablename__ = "dogs"
