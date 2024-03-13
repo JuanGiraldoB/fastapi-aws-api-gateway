@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 # Dog classes
@@ -15,8 +15,9 @@ class Dog(DogBase):
     id: int
     owner_id: int
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
+    # class Config:
+    #     from_attributes = True
 
 # User classes
 
@@ -36,5 +37,7 @@ class User(UserBase):
     is_active: bool
     dogs: list[Dog]
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
+
+    # class Config:
+    #     from_attributes = True
