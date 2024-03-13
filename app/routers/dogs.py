@@ -20,16 +20,9 @@ def read_dogs(db: Session = Depends(get_db)):
 
 
 @router.get("/{dog_id}", response_model=schemas.Dog)
-def get_dog_by_id(dog_id: int, db: Session = Depends(get_db)):
+def read_dog_by_id(dog_id: int, db: Session = Depends(get_db)):
     dogs = crud.get_dog(db, dog_id)
     return dogs
-
-
-@router.post("/{user_id}/dogs/", response_model=schemas.Dog)
-def create_dog_for_user(
-    user_id: int, dog: schemas.DogCreate, db: Session = Depends(get_db)
-):
-    return crud.create_user_dog(db=db, dog=dog, user_id=user_id)
 
 
 @router.put("/{dog_id}", response_model=schemas.Dog)

@@ -49,3 +49,10 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
 def update_user(user_id: int, user: schemas.UserBase, db: Session = Depends(get_db)):
     user = crud.put_user(db, user_id, user)
     return user
+
+
+@router.post("/{user_id}/dogs/", response_model=schemas.Dog)
+def create_dog_for_user(
+    user_id: int, dog: schemas.DogCreate, db: Session = Depends(get_db)
+):
+    return crud.create_user_dog(db=db, dog=dog, user_id=user_id)
