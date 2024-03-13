@@ -49,9 +49,20 @@ def put_user(db: Session, user_id: int, new_user: schemas.User) -> models.User:
     db.commit()
     return user
 
+
+def create_user_dog(db: Session, dog: schemas.DogCreate, user_id: int) -> models.Dog:
+    db_dog = models.Dog(
+        **dog.model_dump(),
+        owner_id=user_id
+    )
+
+    db.add(db_dog)
+    db.commit()
+    db.refresh(db_dog)
+    return db_dog
+
+
 # Dog
-
-
 def delete_dog(db: Session, dog_id: int):
     dog = db.query(models.Dog).filter(models.Dog.id == dog_id).first()
     if dog:
@@ -78,15 +89,3 @@ def put_dog(db: Session, dog_id: int, new_dog: schemas.Dog) -> models.Dog:
 
     db.commit()
     return dog
-
-
-def create_user_dog(db: Session, dog: schemas.DogCreate, user_id: int) -> models.Dog:
-    db_dog = models.Dog(
-        **dog.model_dump(),
-        owner_id=user_id
-    )
-
-    db.add(db_dog)
-    db.commit()
-    db.refresh(db_dog)
-    return db_dog
