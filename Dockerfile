@@ -7,7 +7,7 @@ WORKDIR /app
 ENV PYTHONPATH=/app
 
 # Copy the application code into the container
-COPY ./app /app
+COPY ./src /app
 
 # Install dependencies (if you have a requirements.txt file)
 COPY ./requirements.txt /app/requirements.txt
@@ -17,4 +17,4 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 EXPOSE 8000
 
 # Command to start the application
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -1,8 +1,8 @@
 from fastapi.testclient import TestClient
 from fastapi import status
 
-from app.models import User, Dog
-from app.test.conftest import app, TestingSessionLocal
+from api.models import User, Dog
+from api.test.conftest import app, TestingSessionLocal
 
 
 client = TestClient(app=app)
