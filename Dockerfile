@@ -1,5 +1,6 @@
 # Use the official Python image with Uvicorn and Gunicorn
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.10
+FROM public.ecr.aws/lambda/python:3.12
+
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -13,8 +14,9 @@ COPY ./src /app
 COPY ./requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# Expose port 8000 (the default port used by FastAPI)
-EXPOSE 8000
-
+# ENV HOST="0.0.0.0"
+# ENV PORT=8000
+# ENTRYPOINT uvicorn api.main:app --host ${HOST} --port ${PORT}
 # Command to start the application
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["api.main.handler"]
