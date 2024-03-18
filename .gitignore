@@ -1,5 +1,6 @@
-.fast-api-aws
 sqlite.db
 test.db
 __pycache__/
 .pytest_cache/
+.env*
+commands.txt
