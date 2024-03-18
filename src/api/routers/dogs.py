@@ -12,10 +12,9 @@ router = APIRouter(
 )
 
 
-@router.get("/", response_model=list[schemas.Dog])
+@router.get("", response_model=list[schemas.Dog])
 def read_dogs(db: Session = Depends(get_db)):
     dogs = crud.get_dogs(db)
-    print("dogs:", dogs)
     return dogs
 
 
