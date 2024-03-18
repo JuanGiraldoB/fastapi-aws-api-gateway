@@ -8,10 +8,10 @@ from api.database import Base
 from main import app
 from api.dependencies import get_db
 
-# SQLALCHEMY_DATABASE_URL = "sqlite:///test.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///test.db"
 
 # In memory database
-SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
+# SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
