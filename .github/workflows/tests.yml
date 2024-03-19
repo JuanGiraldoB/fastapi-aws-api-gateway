@@ -32,15 +32,6 @@ jobs:
               with:
                 python-version: ${{ matrix.python-version }}
 
-            - name: Print Environment Variables
-              run: |
-                    echo "MODE: $MODE"
-                    echo "DB_USER: $DB_USER"
-                    echo "DB_PASSWORD: $DB_PASSWORD"
-                    echo "DB_HOST: $DB_HOST"
-                    echo "DB_PORT: $DB_PORT"
-                    echo "DB_NAME: $DB_NAME"
-
             - name: Install dependencies
               run: |
                 python -m pip install --upgrade pip
