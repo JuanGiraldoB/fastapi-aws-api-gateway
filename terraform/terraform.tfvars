@@ -1,0 +1,1 @@
+ecr_name = "fastapi-ecr-registry"
