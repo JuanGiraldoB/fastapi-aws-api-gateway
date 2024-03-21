@@ -3,11 +3,6 @@ variable "ecr_name" {
     type = string
 }
 
-variable "s3_bucket_name" {
-    description = "Name of the s3 bucket"
-    type = string
-}
-
 variable "lambda_name" {
     description = "Name of the lambda function"
     type = string

@@ -5,6 +5,14 @@ terraform {
       version = "~> 5.0"
     }
   }
+
+  backend "s3" {
+    # The bucket has to be previously created
+    bucket = "terraform-fastapi-app"
+    key    = "fastapi-lambda-app"
+    region = "us-east-1"
+    profile = "terraform"
+  }
 }
 
 # Configure the AWS Provider
@@ -93,16 +101,6 @@ resource "aws_lambda_function_url" "lambda_url" {
   authorization_type = "NONE"
 }
 
-resource "aws_s3_bucket" "my_s3_bucket_fastapi_app"{
-  bucket = var.s3_bucket_name
-}
-
-resource "aws_s3_object" "terraform_tfstate_object" {
-  bucket = var.s3_bucket_name
-  key    = "terraform_backup"
-  source = "./terraform.tfstate.backup"
-}
-
 data "aws_caller_identity" "current_identity" {}
 
 locals {
@@ -113,25 +111,14 @@ locals {
   ecr_image_tag       = "latest"
 }
 
-
 resource "null_resource" "ecr_image" {
   triggers = {
     dir_sha1 = sha1(join("", [for f in fileset(path.root, "../src/**") : filesha1(f)]))
   }
-  # triggers = {
-    # python_file_1 = filemd5("../src/main.py")
-    # python_file_2 = filemd5("../plot.py")
-    # python_file_3 = filemd5("../tweeter.py")
-    # python_file_4 = filemd5("../download.py")
-    # requirements  = filemd5("../requirements.txt")
-    # docker_file   = filemd5("../Dockerfile")-
-  # }
   
   provisioner "local-exec" {
   command = <<EOF
-    docker build -t ${var.lambda_name} .. && aws ecr get-login-password --region ${local.region} | docker login --username AWS --password-stdin ${local.account_id}.dkr.ecr.${local.region}.amazonaws.com && docker tag ${local.lambda_name}:${local.ecr_image_tag} ${local.account_id}.dkr.ecr.${local.region}.amazonaws.com/${local.lambda_name}:${local.ecr_image_tag} && docker push ${local.account_id}.dkr.ecr.${local.region}.amazonaws.com/${local.lambda_name}:${local.ecr_image_tag} 
+    docker build -t ${var.lambda_name} .. && aws ecr get-login-password --region ${local.region} --profile terraform | docker login --username AWS --password-stdin ${local.account_id}.dkr.ecr.${local.region}.amazonaws.com && docker tag ${local.lambda_name}:${local.ecr_image_tag} ${local.account_id}.dkr.ecr.${local.region}.amazonaws.com/${local.lambda_name}:${local.ecr_image_tag} && docker push ${local.account_id}.dkr.ecr.${local.region}.amazonaws.com/${local.lambda_name}:${local.ecr_image_tag} 
     EOF
   }
-
-
 }
