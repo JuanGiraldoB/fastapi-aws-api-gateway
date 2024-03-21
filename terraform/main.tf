@@ -5,6 +5,12 @@ terraform {
       version = "~> 5.0"
     }
   }
+
+  backend "s3" {
+    bucket = "test-bucket-sefsad564651"
+    key    = "fastapi-lambda-app"
+    region = "us-east-1"
+  }
 }
 
 # Configure the AWS Provider
