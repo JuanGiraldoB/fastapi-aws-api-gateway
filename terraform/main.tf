@@ -113,6 +113,9 @@ locals {
   ecr_image_tag       = "latest"
 }
 
+output "name" {
+  value = local.account_id
+}
 
 resource "null_resource" "ecr_image" {
   triggers = {
