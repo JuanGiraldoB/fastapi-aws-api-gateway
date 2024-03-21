@@ -113,8 +113,12 @@ locals {
   ecr_image_tag       = "latest"
 }
 
-output "name" {
+output "account_id" {
   value = local.account_id
+}
+
+output "region" {
+  value = local.region
 }
 
 resource "null_resource" "ecr_image" {
@@ -132,10 +136,9 @@ resource "null_resource" "ecr_image" {
   
   provisioner "local-exec" {
   command = <<EOF
-    docker build -t ${var.lambda_name} .. && aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 637423349329.dkr.ecr.us-east-1.amazonaws.com && docker tag ${local.lambda_name}:${local.ecr_image_tag} 637423349329.dkr.ecr.us-east-1.amazonaws.com/${local.lambda_name}:${local.ecr_image_tag} && docker push 637423349329.dkr.ecr.us-east-1.amazonaws.com/${local.lambda_name}:${local.ecr_image_tag} 
+    docker build -t ${var.lambda_name} .. && aws ecr get-login-password --region ${local.region} --profile terraform | docker login --username AWS --password-stdin ${local.account_id}.dkr.ecr.${local.region}.amazonaws.com && docker tag ${local.lambda_name}:${local.ecr_image_tag} ${local.account_id}.dkr.ecr.${local.region}.amazonaws.com/${local.lambda_name}:${local.ecr_image_tag} && docker push ${local.account_id}.dkr.ecr.${local.region}.amazonaws.com/${local.lambda_name}:${local.ecr_image_tag} 
     EOF
   }
-    # docker build -t ${var.lambda_name} .. && aws ecr get-login-password --region ${local.region} | docker login --username AWS --password-stdin ${local.account_id}.dkr.ecr.${local.region}.amazonaws.com && docker tag ${local.lambda_name}:${local.ecr_image_tag} ${local.account_id}.dkr.ecr.${local.region}.amazonaws.com/${local.lambda_name}:${local.ecr_image_tag} && docker push ${local.account_id}.dkr.ecr.${local.region}.amazonaws.com/${local.lambda_name}:${local.ecr_image_tag} 
 
 
 }

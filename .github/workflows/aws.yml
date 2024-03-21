@@ -1,4 +1,4 @@
-name: build and Deploy image
+name: Build and Deploy image
 
 on:
     push:
@@ -33,6 +33,7 @@ jobs:
                 TF_VAR_db_port: ${{secrets.DB_PORT}}
                 TF_VAR_db_name: ${{secrets.DB_USER}}
               run: terraform -chdir=terraform plan
+              
     deploy:
         name: Deploy
         runs-on: ubuntu-latest
