@@ -11,6 +11,7 @@ terraform {
     bucket = "terraform-fastapi-app"
     key    = "fastapi-lambda-app"
     region = "us-east-1"
+    profile = "terraform"
   }
 }
 
