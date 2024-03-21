@@ -16,10 +16,8 @@ jobs:
 
             - name: Add profile credentials to ~/.aws/credentials
               run: |
-                mkdir -p ~/.aws
-                echo "[terraform]" > ~/.aws/credentials
-                echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY }}" >> ~/.aws/credentials
-                echo "aws_secret_access_key=${{ secrets.AWS_SECRET_KEY }}" >> ~/.aws/credentials
+                aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY }} --profile terraform
+                aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_KEY }} --profile terraform
 
             - name: Set up terraform
               uses: hashicorp/setup-terraform@v1
@@ -39,23 +37,16 @@ jobs:
         name: Deploy
         runs-on: ubuntu-latest
         needs: build
-        # if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main'
         steps:
             - name: Checkout
               uses: actions/checkout@v3
 
             - name: Add profile credentials to ~/.aws/credentials
               run: |
-                mkdir -p ~/.aws
-                echo "[terraform]" > ~/.aws/credentials
-                echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY }}" >> ~/.aws/credentials
-                echo "aws_secret_access_key=${{ secrets.AWS_SECRET_KEY }}" >> ~/.aws/credentials
-
-                echo "[profile terraform]" > ~/.aws/config
-                echo "region=us-east-1" >> ~/.aws/config
+                aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY }} --profile terraform
+                aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_KEY }} --profile terraform
                 cat ~/.aws/credentials
-                cat ~/.aws/config
-            
             
             - name: Set up terraform
               uses: hashicorp/setup-terraform@v1
