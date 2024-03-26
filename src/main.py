@@ -6,7 +6,11 @@ import uvicorn
 from mangum import Mangum
 
 from api.models import Base
-from api.routers import dogs, users
+from api.routers import (
+    drivers,
+    races,
+    teams,
+)
 from api.database import engine
 
 Base.metadata.create_all(bind=engine)
@@ -20,8 +24,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(users.router)
-app.include_router(dogs.router)
+app.include_router(drivers.router)
+app.include_router(races.router)
+app.include_router(teams.router)
 
 
 @app.get("/", include_in_schema=False)
@@ -31,4 +36,4 @@ async def root():
 handler = Mangum(app)
 
 if __name__ == "__main__":
-    uvicorn.run(app, port=8000)
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

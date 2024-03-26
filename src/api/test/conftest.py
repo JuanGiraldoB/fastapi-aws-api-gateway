@@ -38,21 +38,8 @@ app.dependency_overrides[get_db] = override_get_db
 
 
 @pytest.fixture()
-def dog():
+def year():
     return {
-        "id": 1,
-        "name": "Rocket",
-        "breed": "Chanda",
-        "owner_id": 1,
-    }
-
-
-@pytest.fixture()
-def user():
-    return {
-        "id": 1,
-        "email": "deadpool@example.com",
-        "password": "chimichangas4life",
-        "name": "deadpool",
-        "contact_info": "somewhere"
+        "valid_year": 2024,
+        "invalid_year": 2026
     }
