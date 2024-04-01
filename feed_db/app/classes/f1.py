@@ -1,11 +1,11 @@
 from bs4 import BeautifulSoup
 import requests
-from models import (
-    Circuit,
+from feed_db.app.models import (
+    # Circuit,
     Driver,
-    FastestLap,
-    Race,
-    RaceResult,
+    # FastestLap,
+    # Race,
+    # RaceResult,
     Team
 )
 from sqlalchemy.orm import Session

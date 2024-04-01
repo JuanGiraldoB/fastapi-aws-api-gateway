@@ -1,4 +1,4 @@
-from models import (
+from feed_db.app.models import (
     Circuit,
     Team,
     Driver,
@@ -7,10 +7,10 @@ from models import (
     FastestLap,
     Base
 )
-from classes.f1 import (
+from app.classes.f1 import (
     TeamsParser
 )
-from database import engine, SessionLocal
+from feed_db.app.database import engine, SessionLocal
 
 
 def get_db():

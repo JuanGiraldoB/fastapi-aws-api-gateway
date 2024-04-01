@@ -1,6 +1,9 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-from database import Base
+from sqlalchemy.orm import declarative_base
+
+Base = declarative_base()
+metadata = Base.metadata
 
 
 class Circuit(Base):
